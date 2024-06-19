@@ -1,0 +1,4 @@
+:root {
+  --primary-color: #015da6;
+  --text-color: #fff
+
