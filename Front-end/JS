@@ -1,114 +1,259 @@
-// Função para registrar reserva
-document.getElementById("reservaLivroForm").addEventListener("submit", function (event) {
-  event.preventDefault();
+// JavaScript
+// Função para cadastrar leitor
+document
+  .getElementById("cadastroLeitorForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
 
-  const isbn = document.getElementById("isbnReserva").value;
-  const cpf = document.getElementById("cpfReserva").value;
-  const nome = document.getElementById("nomeReserva").value;
-  const dataReserva = document.getElementById("dataReserva").value;
+    const nome = document.getElementById("nomeLeitor").value;
+    const endereco = document.getElementById("enderecoLeitor").value;
+    const telefone = document.getElementById("telefoneLeitor").value;
+    const email = document.getElementById("emailLeitor").value;
+    const cpf = document.getElementById("cpfLeitor").value;
+    const senha = document.getElementById("senhaLeitor").value;
 
-  const reserva = { isbn, cpf, nome, dataReserva };
-  registrarReserva(reserva);
+    const leitor = { nome, endereco, telefone, email, cpf, senha };
+    cadastrarLeitor(leitor);
 
-  document.getElementById("reservaLivroForm").reset();
-});
+    document.getElementById("cadastroLeitorForm").reset();
+  });
 
-// Função para registrar reserva na lista
-function registrarReserva(reserva) {
-  reservas.push(reserva);
-
-  const tbody = document.getElementById("reservasBody");
+// Função para cadastrar leitor na lista
+function cadastrarLeitor(leitor) {
+  const tbody = document.getElementById("leitoresCadastradosBody");
   const row = tbody.insertRow();
 
-  row.insertCell(0).textContent = reserva.isbn;
-  row.insertCell(1).textContent = reserva.cpf;
-  row.insertCell(2).textContent = reserva.nome;
-  row.insertCell(3).textContent = reserva.dataReserva;
+  row.insertCell(0).textContent = leitor.nome;
+  row.insertCell(1).textContent = leitor.endereco;
+  row.insertCell(2).textContent = leitor.telefone;
+  row.insertCell(3).textContent = leitor.email;
+  row.insertCell(4).textContent = leitor.cpf;
 
-  const acoesCell = row.insertCell(4);
-  const cancelarBtn = document.createElement("button");
-  cancelarBtn.textContent = "Cancelar";
-  cancelarBtn.addEventListener("click", () => cancelarReserva(tbody.rows.length - 1));
-  acoesCell.appendChild(cancelarBtn);
+  const acoesCell = row.insertCell(5);
+  const editarBtn = document.createElement("button");
+  editarBtn.textContent = "Editar";
+  editarBtn.addEventListener("click", () =>
+    editarLeitor(tbody.rows.length - 1)
+  );
+  acoesCell.appendChild(editarBtn);
+
+  const excluirBtn = document.createElement("button");
+  excluirBtn.textContent = "Excluir";
+  excluirBtn.addEventListener("click", () =>
+    excluirLeitor(tbody.rows.length - 1)
+  );
+  acoesCell.appendChild(excluirBtn);
 }
 
-// Função para cancelar reserva
-function cancelarReserva(index) {
-  reservas.splice(index, 1);
-  atualizarTabelaReservas();
+// Função para editar leitor
+function editarLeitor(index) {
+  const row = document.getElementById("leitoresCadastradosBody").rows[index];
+  const nome = row.cells[0].textContent;
+  const endereco = row.cells[1].textContent;
+  const telefone = row.cells[2].textContent;
+  const email = row.cells[3].textContent;
+  const cpf = row.cells[4].textContent;
+
+  document.getElementById("nomeLeitor").value = nome;
+  document.getElementById("enderecoLeitor").value = endereco;
+  document.getElementById("telefoneLeitor").value = telefone;
+  document.getElementById("emailLeitor").value = email;
+  document.getElementById("cpfLeitor").value = cpf;
+
+  // Simular ação de edição
+  excluirLeitor(index);
 }
 
-// Função para atualizar a tabela de reservas
-function atualizarTabelaReservas() {
-  const tbody = document.getElementById("reservasBody");
+// Função para excluir leitor
+function excluirLeitor(index) {
+  document.getElementById("leitoresCadastradosBody").deleteRow(index);
+}
+
+// Função para mostrar a página correspondente
+function mostrarPagina(pagina) {
+  const sections = document.querySelectorAll(".container");
+  sections.forEach((section) => {
+    section.style.display = "none";
+  });
+  document.getElementById(pagina).style.display = "block";
+}
+
+// Funções para manipulação de dados de livros
+let livros = [];
+let reservas = [];
+let emprestimos = [];
+let editIndex = -1;
+
+// Função para cadastrar livro
+document
+  .getElementById("cadastrarLivroForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const titulo = document.getElementById("titulo").value;
+    const autor = document.getElementById("autor").value;
+    const genero = document.getElementById("genero").value;
+    const dataPublicacao = document.getElementById("dataPublicacao").value;
+    const isbn = document.getElementById("isbn").value;
+    const disponibilidade = document.getElementById("disponibilidade").value;
+    const quantidade = document.getElementById("quantidade").value;
+
+    const livro = {
+      titulo,
+      autor,
+      genero,
+      dataPublicacao,
+      isbn,
+      disponibilidade,
+      quantidade
+    };
+
+    if (editIndex === -1) {
+      livros.push(livro);
+    } else {
+      livros[editIndex] = livro;
+      editIndex = -1;
+    }
+
+    document.getElementById("cadastrarLivroForm").reset();
+    atualizarTabelaLivros();
+    document.getElementById("cadastrarBtn").style.display = "block";
+    document.getElementById("editarBtn").style.display = "none";
+  });
+
+// Função para atualizar a tabela de livros cadastrados
+function atualizarTabelaLivros() {
+  const tbody = document.getElementById("livrosCadastradosBody");
   tbody.innerHTML = "";
 
-  reservas.forEach((reserva, index) => {
+  livros.forEach((livro, index) => {
     const row = tbody.insertRow();
 
-    row.insertCell(0).textContent = reserva.isbn;
-    row.insertCell(1).textContent = reserva.cpf;
-    row.insertCell(2).textContent = reserva.nome;
-    row.insertCell(3).textContent = reserva.dataReserva;
+    row.insertCell(0).textContent = livro.titulo;
+    row.insertCell(1).textContent = livro.autor;
+    row.insertCell(2).textContent = livro.genero;
+    row.insertCell(3).textContent = livro.dataPublicacao;
+    row.insertCell(4).textContent = livro.isbn;
+    row.insertCell(5).textContent = livro.disponibilidade;
+    row.insertCell(6).textContent = livro.quantidade;
 
-    const acoesCell = row.insertCell(4);
-    const cancelarBtn = document.createElement("button");
-    cancelarBtn.textContent = "Cancelar";
-    cancelarBtn.addEventListener("click", () => cancelarReserva(index));
-    acoesCell.appendChild(cancelarBtn);
+    const acoesCell = row.insertCell(7);
+    const editarBtn = document.createElement("button");
+    editarBtn.textContent = "Editar";
+    editarBtn.addEventListener("click", () => editarLivro(index));
+    acoesCell.appendChild(editarBtn);
+
+    const excluirBtn = document.createElement("button");
+    excluirBtn.textContent = "Excluir";
+    excluirBtn.addEventListener("click", () => excluirLivro(index));
+    acoesCell.appendChild(excluirBtn);
   });
 }
 
+// Função para editar livro
+function editarLivro(index) {
+  const livro = livros[index];
+
+  document.getElementById("titulo").value = livro.titulo;
+  document.getElementById("autor").value = livro.autor;
+  document.getElementById("genero").value = livro.genero;
+  document.getElementById("dataPublicacao").value = livro.dataPublicacao;
+  document.getElementById("isbn").value = livro.isbn;
+  document.getElementById("disponibilidade").value = livro.disponibilidade;
+  document.getElementById("quantidade").value = livro.quantidade;
+
+  editIndex = index;
+
+  document.getElementById("cadastrarBtn").style.display = "none";
+  document.getElementById("editarBtn").style.display = "block";
+}
+
+// Função para excluir livro
+function excluirLivro(index) {
+  livros.splice(index, 1);
+  atualizarTabelaLivros();
+}
+
+// Função para consultar livro
+document
+  .getElementById("consultarLivroForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const consultaTitulo = document
+      .getElementById("consultaTitulo")
+      .value.toLowerCase();
+    const resultados = livros.filter((livro) =>
+      livro.titulo.toLowerCase().includes(consultaTitulo)
+    );
+
+    const tbody = document.getElementById("resultadosPesquisaBody");
+    tbody.innerHTML = "";
+
+    resultados.forEach((livro) => {
+      const row = tbody.insertRow();
+
+      row.insertCell(0).textContent = livro.titulo;
+      row.insertCell(1).textContent = livro.autor;
+      row.insertCell(2).textContent = livro.genero;
+      row.insertCell(3).textContent = livro.dataPublicacao;
+      row.insertCell(4).textContent = livro.isbn;
+      row.insertCell(5).textContent = livro.disponibilidade;
+      row.insertCell(6).textContent = livro.quantidade;
+    });
+  });
+
 // Função para registrar empréstimo
-document.getElementById("emprestimoLivroForm").addEventListener("submit", function (event) {
-  event.preventDefault();
+document
+  .getElementById("emprestimoLivroForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
 
-  const isbn = document.getElementById("isbnEmprestimo").value;
-  const cpf = document.getElementById("cpf").value;
-  const nome = document.getElementById("nome").value;
-  const dataEmprestimo = document.getElementById("dataEmprestimo").value;
-  const dataDevolucao = document.getElementById("dataDevolucao").value;
+    const isbn = document.getElementById("isbnEmprestimo").value;
+    const cpf = document.getElementById("cpf").value;
+    const nome = document.getElementById("nome").value;
+    const dataEmprestimo = document.getElementById("dataEmprestimo").value;
 
-  const emprestimo = { isbn, cpf, nome, dataEmprestimo, dataDevolucao, status: "Em andamento" };
-  registrarEmprestimo(emprestimo);
+    const livro = livros.find((livro) => livro.isbn === isbn);
 
-  document.getElementById("emprestimoLivroForm").reset();
-});
+    if (
+      livro &&
+      livro.disponibilidade === "disponivel" &&
+      livro.quantidade > 0
+    ) {
+      const dataDevolucao = new Date(dataEmprestimo);
+      dataDevolucao.setDate(dataDevolucao.getDate() + 14);
 
-// Função para registrar empréstimo na lista
-function registrarEmprestimo(emprestimo) {
-  emprestimos.push(emprestimo);
+      const emprestimo = {
+        isbn,
+        cpf,
+        nome,
+        dataEmprestimo,
+        dataDevolucao: dataDevolucao.toISOString().split("T")[0],
+        status: "emprestado"
+      };
 
-  const tbody = document.getElementById("emprestimosBody");
-  const row = tbody.insertRow();
+      emprestimos.push(emprestimo);
+      livro.quantidade--;
+      if (livro.quantidade === 0) {
+        livro.disponibilidade = "naoDisponivel";
+      }
 
-  row.insertCell(0).textContent = emprestimo.isbn;
-  row.insertCell(1).textContent = emprestimo.cpf;
-  row.insertCell(2).textContent = emprestimo.nome;
-  row.insertCell(3).textContent = emprestimo.dataEmprestimo;
-  row.insertCell(4).textContent = emprestimo.dataDevolucao;
-  row.insertCell(5).textContent = emprestimo.status;
+      atualizarTabelaEmprestimos();
+      atualizarTabelaLivros();
+    } else {
+      alert("Livro não disponível para empréstimo.");
+    }
 
-  const acoesCell = row.insertCell(6);
-  const devolverBtn = document.createElement("button");
-  devolverBtn.textContent = "Devolver";
-  devolverBtn.addEventListener("click", () => devolverLivro(tbody.rows.length - 1));
-  acoesCell.appendChild(devolverBtn);
-}
-
-// Função para devolver livro
-function devolverLivro(index) {
-  const emprestimo = emprestimos[index];
-  emprestimo.status = "Devolvido";
-  atualizarTabelaEmprestimos();
-}
+    document.getElementById("emprestimoLivroForm").reset();
+  });
 
 // Função para atualizar a tabela de empréstimos
 function atualizarTabelaEmprestimos() {
   const tbody = document.getElementById("emprestimosBody");
   tbody.innerHTML = "";
 
-  emprestimos.forEach((emprestimo, index) => {
+  emprestimos.forEach((emprestimo) => {
     const row = tbody.insertRow();
 
     row.insertCell(0).textContent = emprestimo.isbn;
@@ -117,19 +262,117 @@ function atualizarTabelaEmprestimos() {
     row.insertCell(3).textContent = emprestimo.dataEmprestimo;
     row.insertCell(4).textContent = emprestimo.dataDevolucao;
     row.insertCell(5).textContent = emprestimo.status;
-
-    const acoesCell = row.insertCell(6);
-    if (emprestimo.status === "Em andamento") {
-      const devolverBtn = document.createElement("button");
-      devolverBtn.textContent = "Devolver";
-      devolverBtn.addEventListener("click", () => devolverLivro(index));
-      acoesCell.appendChild(devolverBtn);
-    }
   });
 }
 
-// Inicializar a tabela de livros, reservas e empréstimos
-atualizarTabelaLivros();
-atualizarTabelaReservas();
-atualizarTabelaEmprestimos();
+// Função para registrar reserva
+document
+  .getElementById("reservaLivroForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const isbn = document.getElementById("isbnReserva").value;
+    const cpf = document.getElementById("cpfReserva").value;
+    const nome = document.getElementById("nomeReserva").value;
+    const dataReserva = document.getElementById("dataReserva").value;
+
+    const livro = livros.find((livro) => livro.isbn === isbn);
+
+    if (livro) {
+      const reserva = {
+        isbn,
+        cpf,
+        nome,
+        dataReserva
+      };
+
+      reservas.push(reserva);
+      atualizarTabelaReservas();
+    } else {
+      alert("Livro não encontrado.");
+    }
+
+    document.getElementById("reservaLivroForm").reset();
+  });
+
+// Função para atualizar a tabela de reservas
+function atualizarTabelaReservas() {
+  const tbody = document.getElementById("reservasBody");
+  tbody.innerHTML = "";
+
+  reservas.forEach((reserva) => {
+    const row = tbody.insertRow();
+
+    row.insertCell(0).textContent = reserva.isbn;
+    row.insertCell(1).textContent = reserva.cpf;
+    row.insertCell(2).textContent = reserva.nome;
+    row.insertCell(3).textContent = reserva.dataReserva;
+  });
+}
+// Helper function to show/hide elements
+const showElement = (id) => {
+  document.querySelectorAll(".container").forEach((el) => {
+    el.style.display = "none";
+  });
+  document.getElementById(id).style.display = "block";
+};
+
+// Array to store registered users
+const registeredUsers = [];
+
+// Function to register a user
+const registerUser = (username, password) => {
+  registeredUsers.push({ username, password });
+};
+
+// Function to login a user
+const loginUser = (username, password) => {
+  return registeredUsers.some(
+    (user) => user.username === username && user.password === password
+  );
+};
+
+// Event listener for the registration form
+document.getElementById("registroForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  registerUser(username, password);
+  showElement("login");
+});
+
+// Event listener for the login form
+document.getElementById("loginForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  if (loginUser(username, password)) {
+    alert("Login realizado com sucesso!");
+    showElement("pesquisa"); // Change this to the desired section after login
+  } else {
+    alert("Usuário ou senha inválidos");
+  }
+});
+// Remove the second registroForm event listener
+
+// Event listener for the registration form
+document.getElementById("registroForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const username = document.getElementById("nome").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("senha").value;
+
+  const usuario = { username, email, password };
+
+  const registroInfo = document.getElementById("registroInfo");
+  const item = document.createElement("li");
+  item.textContent = `Nome: ${username}, Email: ${email}`;
+  registroInfo.appendChild(item);
+
+  registerUser(username, password); // Register the user
+  showElement("login");
+  document.getElementById("registroForm").reset();
+});
 

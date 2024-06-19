@@ -1,4 +1,253 @@
 :root {
   --primary-color: #015da6;
   --text-color: #fff
+:root {
+  --primary-color: #015da6;
+  --text-color: #fff;
+  --hover-color: #0f3f6d;
+  --background-color: #f5f5f5;
+  --border-color: #ccc;
+  --active-link-color: #f0f0f0;
+  --navbar-color: #333;
+  --button-color: #0275d8;
+  --button-hover-color: #025aa5;
+}
+
+/* Estilo do início */
+#inicio {
+  text-align: center; /* Centraliza o conteúdo */
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+#inicio h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+#inicio p {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #333; /* Altera a cor do texto para melhor legibilidade */
+}
+
+/* Estilo geral */
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: var(--background-color);
+  padding: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  padding: 10px 1.8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: -2px; /* Ajuste pequeno para mover a barra de navegação ligeiramente para a esquerda */
+}
+
+.navbar li {
+  margin-right: 15px; /* Reduzindo a margem direita para mover os itens ligeiramente para a direita */
+  padding-left: 10px; /* Adicionando um espaçamento à esquerda para os itens */
+}
+
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar li {
+  margin-right: 20px; /* Reduzindo a margem direita para mover os itens ligeiramente para a direita */
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+  font-size: 16px; /* Tamanho da fonte reduzido */
+}
+
+.navbar a:hover {
+  color: var(--hover-color);
+}
+
+.brasao {
+  height: 55px;
+  margin-left: -5px; /* Ajuste pequeno para mover o brasão ligeiramente para a esquerda */
+}
+
+/* Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 80px; /* Espaço para a navbar fixa */
+  width: 100%;
+}
+
+/* Seções */
+section {
+  width: 100%;
+  max-width: 600px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+section h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+/* Formulário */
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: var(--primary-color);
+}
+
+input,
+select {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: var(--button-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: var(--button-hover-color);
+  transform: scale(1.05);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid var(--border-color);
+}
+
+thead {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+tbody tr:nth-child(odd) {
+  background-color: var(--background-color);
+}
+
+/* Animações */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar li,
+  .navbar a {
+    margin-right: 10px;
+  }
+
+  section {
+    width: 95%;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar li {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .brasao {
+    margin-bottom: 10px;
+  }
+}
+
+/* Estilo para o botão de Registro */
+#registroBtn {
+  padding: 10px 20px;
+  background-color: #4CAF50; /* Verde */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+#registroBtn:hover {
+  background-color: #45a049; /* Verde mais escuro */
+  transform: scale(1.05);
+}
+
+#registroBtn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba
 
