@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <nav class="navbar">
+      <ul>
+        <li><a href="#" onclick="mostrarPagina('login')">Login</a></li>
+        <li><a href="#" onclick="mostrarPagina('cadastro')">Cadastro</a></li>
+        <li><a href="#" onclick="mostrarPagina('pesquisa')">Pesquisa</a></li>
+        <li><a href="#" onclick="mostrarPagina('emprestimo')">Empréstimo</a></li>
+      </ul>
+      <img src="https://i.postimg.cc/65tDXZb4/brasao-biblioteca-removebg-preview-1.png" alt="Brasão da Biblioteca" class="brasao">
+    </nav>
+  </header>
+
+  <!-- Adicione aqui a seção de login -->
+  <div class="container" id="login" style="display:block;">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="username">Usuário:</label>
+      <input type="text" id="username" name="username" required><br>
+      <label for="password">Senha:</label>
+      <input type="password" id="password" name="password" required><br>
+      <button type="submit">Entrar</button>
+    </form>
+    <button id="registroBtn" onclick="mostrarPagina('registro')">Registro</button>
+  </div>
+
+  <!-- Adicione aqui a seção de registro -->
+  <div class="container" id="registro" style="display:none;">
+    <h2>Registro</h2>
+    <form id="registroForm">
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" required><br>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required><br>
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" name="senha" required><br>
+      <button type="submit">Registrar</button>
+    </form>
+  </div>
+
+  <!-- Adicione aqui a seção de cadastro -->
+  <div class="container" id="cadastro" style="display:none;">
+    <h2>Cadastrar Livro</h2>
+    <form id="cadastrarLivroForm">
+      <label for="titulo">Título:</label>
+      <input type="text" id="titulo" name="titulo" required><br>
+      <label for="autor">Autor:</label>
+      <input type="text" id="autor" name="autor" required><br>
+      <label for="genero">Gênero:</label>
+      <select id="genero" name="genero" required>
+        <option value="romance">Romance</option>
+        <option value="acao">Ação</option>
+        <option value="aventura">Aventura</option>
+        <option value="naoFiccao">Não Ficção</option>
+        <option value="biografia">Biografia</option>
+        <option value="autoajuda">Autoajuda</option>
+        <option value="fantasia">Fantasia</option>
+        <option value="ficcaoCientifica">Ficção Científica</option>
+        <option value="cientificos">Científicos</option>
+        <option value="infantojuvenis">Infantojuvenis</option>
+        <option value="adultos">Adultos</option>
+        <option value="misterio">Mistério</option>
+        <option value="policial">Policial</option>
+      </select><br>
+      <label for="dataPublicacao">Data de Publicação:</label>
+      <input type="date" id="dataPublicacao" name="dataPublicacao" required><br>
+      <label for="isbn">Código ISBN:</label>
+      <input type="text" id="isbn" name="isbn" required><br>
+      <label for="disponibilidade">Disponibilidade:</label>
+      <select id="disponibilidade" name="disponibilidade" required>
+        <option value="disponivel">Disponível</option>
+        <option value="naoDisponivel">Não disponível</option>
+      </select><br>
+      <label for="quantidade">Quantidade:</label>
+      <input type="number" id="quantidade" name="quantidade" required min="1"><br>
+      <button type="submit" id="cadastrarBtn">Cadastrar Livro</button>
+      <button type="button" id="editarBtn" style="display:none;" onclick="salvarAlteracoes()">Salvar Alterações</button>
+    </form>
+
+    <!-- Quadro de livros cadastrados -->
+    <h2>Quadro de Livros Cadastrados</h2>
+    <table id="livrosCadastrados">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>Gênero</th>
+          <th>Data de Publicação</th>
+          <th>Código ISBN</th>
+          <th>Disponibilidade</th>
+          <th>Quantidade</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="livrosCadastradosBody">
+        <!-- Os livros cadastrados serão exibidos aqui -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Adicione aqui a seção de pesquisa -->
+  <div class="container" id="pesquisa" style="display:none;">
+    <h2>Consultar Livro</h2>
+    <form id="consultarLivroForm">
+      <label for="consultaTitulo">Título:</label>
+      <input type="text" id="consultaTitulo" name="consultaTitulo"><br>
+      <button type="submit">Consultar Livro</button>
+    </form>
+
+    <!-- Quadro de resultados da pesquisa -->
+    <h2>Resultados da Pesquisa</h2>
+    <table id="resultadosPesquisa">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>Gênero</th>
+          <th>Data de Publicação</th>
+          <th>Código ISBN</th>
+          <th>Disponibilidade</th>
+          <th>Quantidade</th>
+        </tr>
+      </thead>
+      <tbody id="resultadosPesquisaBody">
+        <!-- Os resultados da pesquisa serão exibidos aqui -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Adicione aqui a seção de empréstimo -->
+  <div class="container" id="emprestimo" style="display:none;">
+    <h2>Empréstimo de Livro</h2>
+    <form id="emprestimoLivroForm">
+      <label for="isbnEmprestimo">Código ISBN:</label>
+      <input type="text" id="isbnEmprestimo" name="isbnEmprestimo" required><br>
+      <label for="cpf">CPF:</label>
+      <input type="text" id="cpf" name="cpf" required><br>
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" required><br>
+      <label for="dataEmprestimo">Data de Empréstimo:</label>
+      <input type="date" id="dataEmprestimo" name="dataEmprestimo" required><br>
+      <label for="dataDevolucao">Data de Devolução:</label>
+      <input type="date" id="dataDevolucao" name="dataDevolucao" required readonly><br>
+      <button type="submit">Registrar Empréstimo</button>
+    </form>
+
+    <!-- Quadro de empréstimos -->
+    <h2>Empréstimos</h2>
+    <table id="emprestimos">
+      <thead>
+        <tr>
+          <th>Código ISBN</th>
+          <th>CPF</th>
+          <th>Nome</th>
+          <th>Data de Empréstimo</th>
+          <th>Data de Devolução</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="emprestimosBody">
+        <!-- Os empréstimos serão exibidos aqui -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
+
