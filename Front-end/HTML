@@ -78,6 +78,7 @@
       <input type="password" id="senhaLeitor" name="senhaLeitor" required><br>
       <button type="submit">Registrar Leitor</button>
     </form>
+    <button type="button" onclick="gerarRelatorioLeitores()">Gerar Relatório</button>
     <h2>Leitores Cadastrados</h2>
     <table id="leitoresCadastrados">
       <thead>
@@ -132,6 +133,7 @@
       <button type="submit" id="cadastrarBtn">Cadastrar Livro</button>
       <button type="button" id="editarBtn" style="display:none;" onclick="salvarAlteracoes()">Salvar Alterações</button>
     </form>
+    <button type="button" onclick="gerarRelatorioLivros()">Gerar Relatório</button>
     <h2>Livros Cadastrados</h2>
     <table id="livrosCadastrados">
       <thead>
