@@ -572,3 +572,85 @@ document.getElementById("cpfReserva").addEventListener("input", function () {
   this.value = formatarCPF(this.value);
 });
 
+// Função para gerar relatório de livros
+function gerarRelatorioLivros() {
+  const livrosRelatorio = livros.map((livro) => ({
+    Título: livro.titulo,
+    Autor: livro.autor,
+    Gênero: livro.genero,
+    "Data de Publicação": livro.dataPublicacao,
+    "Código ISBN": livro.isbn,
+    Disponibilidade: livro.disponibilidade,
+    Quantidade: livro.quantidade
+  }));
+
+  const relatorioWindow = window.open("", "", "width=800,height=600");
+  relatorioWindow.document.write(
+    "<html><head><title>Relatório de Livros</title>"
+  );
+  relatorioWindow.document.write(
+    "<style>table {width: 100%; border-collapse: collapse;} table, th, td {border: 1px solid black;} th, td {padding: 10px; text-align: left;} th {background-color: #f2f2f2;}</style>"
+  );
+  relatorioWindow.document.write("</head><body>");
+  relatorioWindow.document.write("<h2>Relatório de Livros Cadastrados</h2>");
+  relatorioWindow.document.write(
+    "<table><thead><tr><th>Título</th><th>Autor</th><th>Gênero</th><th>Data de Publicação</th><th>Código ISBN</th><th>Disponibilidade</th><th>Quantidade</th></tr></thead><tbody>"
+  );
+
+  livrosRelatorio.forEach((livro) => {
+    relatorioWindow.document.write("<tr>");
+    relatorioWindow.document.write(`<td>${livro["Título"]}</td>`);
+    relatorioWindow.document.write(`<td>${livro["Autor"]}</td>`);
+    relatorioWindow.document.write(`<td>${livro["Gênero"]}</td>`);
+    relatorioWindow.document.write(`<td>${livro["Data de Publicação"]}</td>`);
+    relatorioWindow.document.write(`<td>${livro["Código ISBN"]}</td>`);
+    relatorioWindow.document.write(`<td>${livro["Disponibilidade"]}</td>`);
+    relatorioWindow.document.write(`<td>${livro["Quantidade"]}</td>`);
+    relatorioWindow.document.write("</tr>");
+  });
+
+  relatorioWindow.document.write("</tbody></table>");
+  relatorioWindow.document.write("</body></html>");
+  relatorioWindow.document.close();
+  relatorioWindow.print();
+}
+
+// Função para gerar relatório de leitores
+function gerarRelatorioLeitores() {
+  const leitoresRelatorio = leitores.map((leitor) => ({
+    Nome: leitor.nome,
+    Endereço: leitor.endereco,
+    Telefone: leitor.telefone,
+    Email: leitor.email,
+    CPF: leitor.cpf
+  }));
+
+  const relatorioWindow = window.open("", "", "width=800,height=600");
+  relatorioWindow.document.write(
+    "<html><head><title>Relatório de Leitores</title>"
+  );
+  relatorioWindow.document.write(
+    "<style>table {width: 100%; border-collapse: collapse;} table, th, td {border: 1px solid black;} th, td {padding: 10px; text-align: left;} th {background-color: #f2f2f2;}</style>"
+  );
+  relatorioWindow.document.write("</head><body>");
+  relatorioWindow.document.write("<h2>Relatório de Leitores Cadastrados</h2>");
+  relatorioWindow.document.write(
+    "<table><thead><tr><th>Nome</th><th>Endereço</th><th>Telefone</th><th>Email</th><th>CPF</th></tr></thead><tbody>"
+  );
+
+  leitoresRelatorio.forEach((leitor) => {
+    relatorioWindow.document.write("<tr>");
+    relatorioWindow.document.write(`<td>${leitor["Nome"]}</td>`);
+    relatorioWindow.document.write(`<td>${leitor["Endereço"]}</td>`);
+    relatorioWindow.document.write(`<td>${leitor["Telefone"]}</td>`);
+    relatorioWindow.document.write(`<td>${leitor["Email"]}</td>`);
+    relatorioWindow.document.write(`<td>${leitor["CPF"]}</td>`);
+    relatorioWindow.document.write("</tr>");
+  });
+
+  relatorioWindow.document.write("</tbody></table>");
+  relatorioWindow.document.write("</body></html>");
+  relatorioWindow.document.close();
+  relatorioWindow.print();
+}
+
