@@ -12,19 +12,55 @@
   <header>
     <nav class="navbar">
       <ul>
-        <li><a href="#" onclick="mostrarPagina('login')">Login</a></li>
-        <li><a href="#" onclick="mostrarPagina('cadastro')">Cadastro</a></li>
-        <li><a href="#" onclick="mostrarPagina('pesquisa')">Pesquisa</a></li>
+        <li><a href="#" onclick="mostrarPagina('cadastroUsuario')">Cadastro Usuário</a></li>
+        <li><a href="#" onclick="mostrarPagina('cadastro')">Cadastro Livro</a></li>
+        <li><a href="#" onclick="mostrarPagina('pesquisa')">Pesquisa Livro</a></li>
         <li><a href="#" onclick="mostrarPagina('emprestimo')">Empréstimo</a></li>
         <li><a href="#" onclick="mostrarPagina('reserva')">Reserva</a></li>
         <li><a href="#" onclick="mostrarPagina('cadastroLeitor')">Leitor</a></li>
       </ul>
-
-      </ul>
       <img src="https://i.postimg.cc/65tDXZb4/brasao-biblioteca-removebg-preview-1.png" alt="Brasão da Biblioteca" class="brasao">
     </nav>
   </header>
-  <!-- Adicione aqui a seção de cadastro de leitor -->
+
+  <!-- Cadastro Usuário -->
+  <div class="container" id="cadastroUsuario" style="display:none;">
+    <h2>Cadastrar Usuário</h2>
+    <form id="cadastroUsuarioForm">
+      <label for="nomeUsuario">Nome:</label>
+      <input type="text" id="nomeUsuario" name="nomeUsuario" required><br>
+      <label for="cpfUsuario">CPF:</label>
+      <input type="text" id="cpfUsuario" name="cpfUsuario" required maxlength="14" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"><br>
+      <label for="telefoneUsuario">Telefone:</label>
+      <input type="text" id="telefoneUsuario" name="telefoneUsuario" required maxlength="15" pattern="\(\d{2}\) \d{4,5}-\d{4}"><br>
+      <label for="emailUsuario">Email:</label>
+      <input type="email" id="emailUsuario" name="emailUsuario" required><br>
+      <label for="nivelAcesso">Nível de Acesso:</label>
+      <select id="nivelAcesso" name="nivelAcesso" required>
+        <option value="Administrador">Administrador</option>
+        <option value="Secretária">Bibliotecário</option>
+      </select><br>
+      <label for="senhaUsuario">Senha:</label>
+      <input type="password" id="senhaUsuario" name="senhaUsuario" required><br>
+      <button type="submit">Registrar Usuário</button>
+    </form>
+    <h2>Usuários Cadastrados</h2>
+    <table id="usuariosCadastrados">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>Telefone</th>
+          <th>Email</th>
+          <th>Nível de Acesso</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="usuariosCadastradosBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Cadastro Leitor -->
   <div class="container" id="cadastroLeitor" style="display:none;">
     <h2>Cadastrar Leitor</h2>
     <form id="cadastroLeitorForm">
@@ -33,18 +69,17 @@
       <label for="enderecoLeitor">Endereço:</label>
       <input type="text" id="enderecoLeitor" name="enderecoLeitor" required><br>
       <label for="telefoneLeitor">Telefone:</label>
-      <input type="text" id="telefoneLeitor" name="telefoneLeitor" required><br>
+      <input type="text" id="telefoneLeitor" name="telefoneLeitor" required maxlength="15" pattern="\(\d{2}\) \d{4,5}-\d{4}"><br>
       <label for="emailLeitor">Email:</label>
       <input type="email" id="emailLeitor" name="emailLeitor" required><br>
       <label for="cpfLeitor">CPF:</label>
-      <input type="text" id="cpfLeitor" name="cpfLeitor" required><br>
+      <input type="text" id="cpfLeitor" name="cpfLeitor" required maxlength="14" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"><br>
       <label for="senhaLeitor">Senha:</label>
       <input type="password" id="senhaLeitor" name="senhaLeitor" required><br>
       <button type="submit">Registrar Leitor</button>
     </form>
-
-    <!-- Quadro de leitores cadastrados -->
-    <h2>Quadro de Leitores Cadastrados</h2>
+    <button type="button" onclick="gerarRelatorioLeitores()">Gerar Relatório</button>
+    <h2>Leitores Cadastrados</h2>
     <table id="leitoresCadastrados">
       <thead>
         <tr>
@@ -56,46 +91,11 @@
           <th>Ações</th>
         </tr>
       </thead>
-      <tbody id="leitoresCadastradosBody">
-        <!-- Os leitores cadastrados serão exibidos aqui -->
-      </tbody>
+      <tbody id="leitoresCadastradosBody"></tbody>
     </table>
   </div>
 
-  <!-- Adicione aqui a seção de login -->
-  <div class="container" id="login" style="display:block;">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <label for="username">Usuário:</label>
-      <input type="text" id="username" name="username" required><br>
-      <label for="password">Senha:</label>
-      <input type="password" id="password" name="password" required><br>
-      <button type="submit">Entrar</button>
-    </form>
-    <button id="registroBtn" onclick="mostrarPagina('registro')">Registro</button>
-  </div>
-
-  <!-- Adicione aqui a seção de registro -->
-  <div class="container" id="registro" style="display:none;">
-    <h2>Registro</h2>
-    <form id="registroForm">
-      <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" required><br>
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required><br>
-      <label for="senha">Senha:</label>
-      <input type="password" id="senha" name="senha" required><br>
-      <button type="submit">Registrar</button>
-    </form>
-  </div>
-
-  <!-- Adicione aqui o conteúdo dos registros -->
-  <div id="registroData" style="display: none; position: fixed; bottom: 60px; left: 10px;">
-    <h2>Informações de Registro</h2>
-    <ul id="registroInfo"></ul>
-  </div>
-
-  <!-- Adicione aqui a seção de cadastro -->
+  <!-- Cadastro Livro -->
   <div class="container" id="cadastro" style="display:none;">
     <h2>Cadastrar Livro</h2>
     <form id="cadastrarLivroForm">
@@ -133,9 +133,8 @@
       <button type="submit" id="cadastrarBtn">Cadastrar Livro</button>
       <button type="button" id="editarBtn" style="display:none;" onclick="salvarAlteracoes()">Salvar Alterações</button>
     </form>
-
-    <!-- Quadro de livros cadastrados -->
-    <h2>Quadro de Livros Cadastrados</h2>
+    <button type="button" onclick="gerarRelatorioLivros()">Gerar Relatório</button>
+    <h2>Livros Cadastrados</h2>
     <table id="livrosCadastrados">
       <thead>
         <tr>
@@ -149,13 +148,11 @@
           <th>Ações</th>
         </tr>
       </thead>
-      <tbody id="livrosCadastradosBody">
-        <!-- Os livros cadastrados serão exibidos aqui -->
-      </tbody>
+      <tbody id="livrosCadastradosBody"></tbody>
     </table>
   </div>
 
-  <!-- Adicione aqui a seção de pesquisa -->
+  <!-- Pesquisa Livro -->
   <div class="container" id="pesquisa" style="display:none;">
     <h2>Consultar Livro</h2>
     <form id="consultarLivroForm">
@@ -163,8 +160,6 @@
       <input type="text" id="consultaTitulo" name="consultaTitulo"><br>
       <button type="submit">Consultar Livro</button>
     </form>
-
-    <!-- Quadro de resultados da pesquisa -->
     <h2>Resultados da Pesquisa</h2>
     <table id="resultadosPesquisa">
       <thead>
@@ -178,30 +173,26 @@
           <th>Quantidade</th>
         </tr>
       </thead>
-      <tbody id="resultadosPesquisaBody">
-        <!-- Os resultados da pesquisa serão exibidos aqui -->
-      </tbody>
+      <tbody id="resultadosPesquisaBody"></tbody>
     </table>
   </div>
 
-  <!-- Adicione aqui a seção de empréstimo -->
+  <!-- Empréstimo -->
   <div class="container" id="emprestimo" style="display:none;">
     <h2>Empréstimo de Livro</h2>
     <form id="emprestimoLivroForm">
       <label for="isbnEmprestimo">Código ISBN:</label>
       <input type="text" id="isbnEmprestimo" name="isbnEmprestimo" required><br>
       <label for="cpf">CPF:</label>
-      <input type="text" id="cpf" name="cpf" required><br>
+      <input type="text" id="cpf" name="cpf" required maxlength="14" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"><br>
       <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" required><br> <!-- Adicionando campo para o nome do usuário -->
+      <input type="text" id="nome" name="nome" required><br>
       <label for="dataEmprestimo">Data de Empréstimo:</label>
       <input type="date" id="dataEmprestimo" name="dataEmprestimo" required><br>
       <label for="dataDevolucao">Data de Devolução:</label>
       <input type="date" id="dataDevolucao" name="dataDevolucao" required readonly><br>
       <button type="submit">Registrar Empréstimo</button>
     </form>
-
-    <!-- Quadro de empréstimos -->
     <h2>Empréstimos</h2>
     <table id="emprestimos">
       <thead>
@@ -212,30 +203,27 @@
           <th>Data de Empréstimo</th>
           <th>Data de Devolução</th>
           <th>Status</th>
+          <th>Ações</th>
         </tr>
       </thead>
-      <tbody id="emprestimosBody">
-        <!-- Os empréstimos serão exibidos aqui -->
-      </tbody>
+      <tbody id="emprestimosBody"></tbody>
     </table>
   </div>
 
-  <!-- Seção de Reserva -->
+  <!-- Reserva -->
   <div class="container" id="reserva" style="display:none;">
     <h2>Reserva de Livro</h2>
     <form id="reservaLivroForm">
       <label for="isbnReserva">Código ISBN:</label>
       <input type="text" id="isbnReserva" name="isbnReserva" required><br>
       <label for="cpfReserva">CPF:</label>
-      <input type="text" id="cpfReserva" name="cpfReserva" required><br>
+      <input type="text" id="cpfReserva" name="cpfReserva" required maxlength="14" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"><br>
       <label for="nomeReserva">Nome:</label>
       <input type="text" id="nomeReserva" name="nomeReserva" required><br>
       <label for="dataReserva">Data de Reserva:</label>
       <input type="date" id="dataReserva" name="dataReserva" required><br>
       <button type="submit">Registrar Reserva</button>
     </form>
-
-    <!-- Quadro de reservas -->
     <h2>Reservas</h2>
     <table id="reservas">
       <thead>
@@ -247,13 +235,11 @@
           <th>Ações</th>
         </tr>
       </thead>
-      <tbody id="reservasBody">
-        <!-- As reservas serão exibidas aqui -->
-      </tbody>
+      <tbody id="reservasBody"></tbody>
     </table>
   </div>
 
   <script src="script.js"></script>
 </body>
 
-</html> 
+</html>
